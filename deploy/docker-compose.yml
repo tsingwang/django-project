@@ -1,0 +1,79 @@
+version: "3"
+services:
+  db:
+    restart: always
+    image: postgres:14.4
+    environment:
+      - POSTGRES_PASSWORD=xxx
+    #ports:
+    #  - 5432:5432
+    volumes:
+      - /data/db:/var/lib/postgresql/data
+  redis:
+    restart: always
+    image: redis:7.0.4-alpine
+    command:
+      - /bin/sh
+      - -c
+      - |
+        redis-server --appendonly yes
+    #ports:
+    #  - 6379:6379
+    volumes:
+      - /data/redis:/data
+  worker:
+    restart: always
+    image: django-project:0.1.0
+    environment:
+      - IS_PROD=True
+      - DB_USER=django
+      - DB_PASSWORD=xxx
+      - DB_HOST=db
+      - REDIS_URL=redis://redis:6379/0
+      - EMAIL_HOST_PASSWORD=xxx
+    command:
+      - /bin/sh
+      - -c
+      - |
+        celery -A django_project worker -B -l info
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+  api:
+    restart: always
+    image: django-project:0.1.0
+    environment:
+      - IS_PROD=True
+      - DB_USER=django
+      - DB_PASSWORD=xxx
+      - DB_HOST=db
+      - REDIS_URL=redis://redis:6379/0
+      - EMAIL_HOST_PASSWORD=xxx
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python manage.py migrate
+        daphne -b 0.0.0.0 -p 8000 django_project.asgi:application
+    volumes:
+      - /data/media:/app/media
+      - /data/storage:/app/storage
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+  nginx:
+    restart: always
+    image: gateway:0.1.0
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/static:/app/static
+      - /data/media:/app/media
+    links:
+      - api

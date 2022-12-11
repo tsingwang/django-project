@@ -1,0 +1,9 @@
+.git
+venv
+
+db.sqlite3
+static
+media
+storage
+
+celerybeat-schedule
