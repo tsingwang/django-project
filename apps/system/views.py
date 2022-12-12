@@ -111,7 +111,7 @@ class UserViewSet(ModelViewSet):
             exclude(username='AnonymousUser').order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [ActionModelWithReadPermissions]
-    search_fields = ['fullname', 'email', 'mobile',]
+    search_fields = ['full_name', 'email', 'mobile',]
     filterset_fields = ['is_active']
 
     @action(detail=False, permission_classes=[permissions.IsAuthenticated])
@@ -119,7 +119,7 @@ class UserViewSet(ModelViewSet):
         user = request.user
         serializer = self.get_serializer(user)
         ret = dict(serializer.data)
-        ret.update({'userId': user.username, 'realName': user.profile.fullname,
+        ret.update({'userId': user.username, 'realName': user.profile.full_name,
                     'roles': ret['groups']})
         return Response(ret)
 

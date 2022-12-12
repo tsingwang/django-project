@@ -6,7 +6,7 @@ from .tasks import send_email
 def notify_register(user):
     msg = f"""新用户注册
 
-    姓名: {user.profile.fullname}
+    姓名: {user.profile.full_name}
     邮箱: {user.profile.email}
     手机: {user.profile.mobile}
 

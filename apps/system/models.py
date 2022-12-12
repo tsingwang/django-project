@@ -37,7 +37,7 @@ class OperationLog(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    fullname = models.CharField(max_length=64)
+    full_name = models.CharField(max_length=64)
     gender = models.CharField(choices=GENDERS, max_length=8, null=True, blank=True)
     avatar = models.CharField(max_length=256, null=True, blank=True)
     mobile = models.CharField(max_length=15, unique=True, null=True, blank=True)

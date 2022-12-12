@@ -51,7 +51,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
-    fullname = serializers.CharField(write_only=True)
+    full_name = serializers.CharField(write_only=True)
     email = serializers.EmailField(write_only=True)
     mobile = serializers.CharField(write_only=True)
 
