@@ -31,5 +31,5 @@ class VideoDetailSerializer(BaseModelSerializer):
     liked_users = BasicUserSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Lesson
+        model = Video
         fields = '__all__'

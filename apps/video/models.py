@@ -46,7 +46,7 @@ class Video(BaseModel):
         super().save(*args, **kwargs)
         if self.video and not self.duration:
             self.cover = os.path.join(
-                'course', '{}_{}_cover.png'.format(self.course.id, self.id))
+                'video', '{}_cover.png'.format(self.id))
             cap = cv2.VideoCapture(self.video.path)
             for i in range(30):
                 ok, frame = cap.read()

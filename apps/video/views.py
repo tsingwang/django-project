@@ -12,10 +12,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from utils import file_iterator
-from utils.permission import ActionModelPermissions
+from utils.permissions import ActionModelPermissions
 
 from . import serializers
-from .models import Category, Course, Lesson, CourseImage, Comment
+from .models import Category, Video
 
 
 class CategoryViewSet(ModelViewSet):
@@ -29,7 +29,7 @@ class VideoViewSet(ModelViewSet):
     serializer_class = serializers.VideoSerializer
     permission_classes = [ActionModelPermissions]
     search_fields = ['name', 'content']
-    filterset_fields = ['course']
+    filterset_fields = ['category']
 
     def get_serializer_class(self):
         if self.action in ('create', 'update', 'partial_update'):
@@ -51,8 +51,6 @@ class VideoViewSet(ModelViewSet):
         instance = self.get_object()
         instance.read_count += 1
         instance.save()
-        instance.learned_users.add(request.user)
-        instance.course.learned_users.add(request.user)
         serializer = serializers.VideoDetailSerializer(instance)
         video_token = binascii.hexlify(os.urandom(20)).decode()
         key = 'video.token.' + video_token
