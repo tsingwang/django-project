@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'apps.debug',
     'apps.system',
+    'apps.filestore',
     'apps.video',
 ]
 

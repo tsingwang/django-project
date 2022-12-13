@@ -11,3 +11,7 @@ def index(request):
         time.sleep(10)
         return HttpResponse(count)
     return HttpResponse(count)
+
+
+def detail(request, name):
+    return HttpResponse(name)

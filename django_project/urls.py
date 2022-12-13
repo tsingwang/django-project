@@ -21,7 +21,8 @@ from rest_framework import permissions
 
 urlpatterns = [
     path(settings.URL_PREFIX + 'debug/', include('apps.debug.urls')),
-    path(settings.URL_PREFIX + 'api/videos', include('apps.video.urls')),
+    path(settings.URL_PREFIX + 'api/filestore/', include('apps.filestore.urls')),
+    path(settings.URL_PREFIX + 'api/video/', include('apps.video.urls')),
     path(settings.URL_PREFIX + 'api/', include('apps.system.urls')),
 
     path(settings.URL_PREFIX + 'admin/', admin.site.urls),
